@@ -21,12 +21,14 @@ DOCA Platform Framework (DPF) to provision and orchestrate BlueField DPUs in clo
   
 #### Management
 
-Use Kubernetes NicClusterPolicy CRD to LCM driver and device plugin states. 
-- rmashareddeviceplugin
-  - The HCA handles memory registration, QP (Queue Pair) management, and DMA directly in hardware, bypassing the CPU/kernel for data transfers
-rdmaHcaMax: 63 means up to 63 pods can share RDMA contexts on a single physical HCA
+Use Kubernetes NicClusterPolicy CRD to LCM driver and device plugin states (see snap below). 
 - doca-ofed: drivers for BF NICs
-  - 
+  - Deploys the DOCA/OFED kernel driver as a DaemonSet on each node.
+- rmashareddeviceplugin
+  - Deploys the RDMA device plugin, which advertises RDMA Host Channel Adapter (HCA = rough equivalent of a NIC in IB) to the K8s device API.
+  - The HCA handles memory registration, QP (Queue Pair) management, and DMA directly in hardware, bypassing the CPU/kernel for data transfers
+rdmaHcaMax: 63 means up to 63 pods can share RDMA contexts on a single physical HCA. rdmaHcaMax: 63 means up to 63 pods can share RDMA contexts on a single physical HCA (bit
+
 ```
 apiVersion: mellanox.com/v1alpha1
 kind: NicClusterPolicy
